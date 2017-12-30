@@ -129,42 +129,6 @@ impl CFixedString {
     pub fn into_bytes_full(self) -> Vec<u8> {
         self.into_inner().into_vec()
     }
-    /// Returns the contents of this CFixedString as a slice of bytes. The length of
-    /// the slice will equal the length of the string up to but not including the first
-    /// null byte.
-    pub fn as_bytes(&self) -> &[u8] {
-        (*self).to_bytes()
-    }
-    /// Returns the contents of this CFixedString as a mutable slice of bytes. The length of
-    /// the slice will equal the length of the string up to but not including the first
-    /// null byte.
-    pub fn as_bytes_mut(&mut self) -> &mut [u8] {
-        (*self).to_bytes_mut()
-    }
-    /// Returns the contents of this CFixedString as a slice of bytes. The length of
-    /// the slice will equal the length of the string up to and including the first
-    /// null byte if it exists.
-    pub fn as_bytes_extended(&self) -> &[u8] {
-        (*self).to_bytes_extended()
-    }
-    /// Returns the contents of this CFixedString as a mutable slice of bytes. The length of
-    /// the slice will equal the length of the string up to and including the first
-    /// null byte if it exists.
-    pub fn as_bytes_mut_extended(&mut self) -> &mut [u8] {
-        (*self).to_bytes_mut_extended()
-    }
-    /// Returns the contents of this CFixedString as a slice of bytes. The length of
-    /// the slice will equal the limit of the CFixedString. The slice may contain
-    /// garbage values after the first null byte.
-    pub fn as_bytes_full(&self) -> &[u8] {
-        &self.inner
-    }
-    /// Returns the contents of this CFixedString as a mutable slice of bytes. The length of
-    /// the slice will equal the limit of the CFixedString. The slice may contain
-    /// garbage values after the first null byte.
-    pub fn as_bytes_mut_full(&mut self) -> &mut [u8] {
-        &mut self.inner
-    }
     /// Extracts a CFixedStr slice containing the entire buffer.
     pub fn as_c_fixed_str(&self) -> &CFixedStr {
         &*self
@@ -200,14 +164,14 @@ impl ops::Deref for CFixedString {
 
     #[inline]
     fn deref(&self) -> &CFixedStr {
-        CFixedStr::from_bytes(self.as_bytes_full())
+        CFixedStr::from_bytes(&self.inner)
     }
 }
 
 impl ops::DerefMut for CFixedString {
     #[inline]
     fn deref_mut(&mut self) -> &mut CFixedStr {
-        CFixedStr::from_bytes_mut(self.as_bytes_mut_full())
+        CFixedStr::from_bytes_mut(&mut self.inner)
     }
 }
 
@@ -219,7 +183,7 @@ impl fmt::Debug for CFixedString {
 
 impl Clone for CFixedString {
     fn clone(&self) -> Self {
-        CFixedString::new(self.as_bytes_extended())
+        CFixedString::new(self.as_bytes_full())
     }
 }
 
@@ -361,12 +325,12 @@ impl CFixedStr {
     }
     /// Coverts this CFixedStr to a byte slice. The length of the slice is equal
     /// to the limit of the CFixedStr.
-    pub fn to_bytes_full(&self) -> &[u8] {
+    pub fn as_bytes_full(&self) -> &[u8] {
         &self.inner
     }
     /// Coverts this CFixedStr to a mutable byte slice. The length of the slice is equal
     /// to the limit of the CFixedStr.
-    pub fn to_bytes_mut_full(&mut self) -> &mut [u8] {
+    pub fn as_bytes_mut_full(&mut self) -> &mut [u8] {
         &mut self.inner
     }
     /// Yields a &str slice if the CFixedStr contains valid UTF-8.
