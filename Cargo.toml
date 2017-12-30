@@ -1,0 +1,12 @@
+[package]
+name = "c_fixed_string"
+version = "0.1.0"
+authors = ["Diggory Blake <diggsey@googlemail.com>"]
+description = "Wrapper types around C-style fixed length string buffers"
+license = "MIT OR Apache-2.0"
+documentation = "https://docs.rs/crate/c_fixed_string/"
+homepage = "https://github.com/Diggsey/c_fixed_string-rs"
+repository = "https://github.com/Diggsey/c_fixed_string-rs"
+
+[dependencies]
+memchr = "2.0.1"
