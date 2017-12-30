@@ -445,6 +445,13 @@ impl ops::Index<ops::RangeFull> for CFixedString {
     }
 }
 
+impl ops::IndexMut<ops::RangeFull> for CFixedString {
+    #[inline]
+    fn index_mut(&mut self, _index: ops::RangeFull) -> &mut CFixedStr {
+        self
+    }
+}
+
 impl AsRef<CFixedStr> for CFixedStr {
     #[inline]
     fn as_ref(&self) -> &CFixedStr {
