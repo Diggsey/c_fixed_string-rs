@@ -1,6 +1,6 @@
 [package]
 name = "c_fixed_string"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Diggory Blake <diggsey@googlemail.com>"]
 description = "Wrapper types around C-style fixed length string buffers"
 license = "MIT OR Apache-2.0"
